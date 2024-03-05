@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hello React!</title>
+
+</head>
+
+<body>
+    <div id="root"></div>
+    <!-- This script works with component's state, and basically all react stuff. This is
+    basically the interface of how to interact with react -->
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <!-- This script is basically the rendering layer which can render react components into the dom, since we want to render in the browser we need to use react dom -->
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <!-- But react can also be rendered in other environments, for example as native applications using react native -->
+    <script>
+        /* The first application we built(React App) we returned some JSX code, Here we don't have the tooling to convert JSX into JavaScript, So here we need to use create element function */
+        function App() {
+            // const time = new Date().toLocaleTimeString();
+            /* State is required when we need to update something on the screen. setTime is a function to update time state(data), again we got the React object from 1st script, In useState we need to set the default value */
+
+            const [time, setTime] = React.useState(new Date().toLocaleTimeString());
+
+            React.useEffect(function () {
+                // set up a timer that updates the state every second(1000miliseconds)
+                setInterval(function () {
+                    // setting the new current time every second
+                    setTime(new Date().toLocaleTimeString());
+                }, 1000);
+            }, []);
+
+            /* The react object is coming from the first script, and from there we can use createElement method. Create element function accepts element name, props in this case null, and children of this element(string in this case). So "Hello React" is basically the child node of parent node header */
+            return React.createElement('header', null, `Hello React! It's ${time}`);
+        }
+        /* Tell React to render the header onto the page, in DOM. It is done after the component, Now using ReactDom object from 2nd script. Now doing this div element with id root will become root of the application. Means the application will be rendered inside root element */
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        // We render creating a new element out of of the App component
+        root.render(React.createElement(App));
+    </script>
+</body>
+
+</html>
