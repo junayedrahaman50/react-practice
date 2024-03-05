@@ -13,7 +13,7 @@ export default function App() {
     const data = await res.json();
     setAdvice(data.slip.advice);
     /* Now in this getAdvice function we can use setAdvice function to
-    upadate the stat, whenever the piece of state is updated 
+    upadate the state, whenever the piece of state is updated 
     user interface will also be updated */
     // take current count add 1 and that will become the new count
     setCount((c) => c + 1);
