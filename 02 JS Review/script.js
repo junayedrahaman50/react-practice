@@ -143,7 +143,7 @@ function getBook(id) {
   return data.find((d) => d.id === id);
 }
 
-const book = getBook(2);
+const book = getBook(1);
 // to take out the title
 // const title = book.title;
 // const author = book.author;
@@ -157,5 +157,38 @@ console.log(author, title, genres);
 // const secondaryGenre = genres[1];
 
 // This can be done in a better way using destructuring
-const [primaryGenre, secondaryGenre] = genres;
-console.log(primaryGenre, secondaryGenre);
+const [primaryGenre, secondaryGenre, ...otherGenres] = genres;
+console.log(primaryGenre, secondaryGenre, otherGenres);
+
+// const newGenres = [genres, "epic fantasy"];
+// spread operator in array
+const newGenres = ["epic fantasy", ...genres];
+console.log(newGenres);
+
+const updateBook = { book, moviePublicationDate: "2001-12-19" };
+// console.log(updateBook);
+const updateBook2 = { ...book, moviePublicationDate: "2001-12-19" };
+console.log(updateBook2);
+console.log(book);
+
+const updateBook3 = {
+  ...book,
+  // **Adding a new property
+  moviePublicationDate: "2001-12-19",
+  // **Overwriting an existing property
+  pages: 1210, // update/overwrites pages property of book object cause it comes last
+};
+console.log(updateBook3);
+const updateBook4 = {
+  pages: 1210, //gets updated/overwrites by pages property of book object cause it comes first
+  ...book,
+  moviePublicationDate: "2001-12-19",
+};
+console.log(updateBook4);
+/* 
+Same as:
+const groceryList = {Beans:'3kg', Daal:'2kg', Beans:'4kg'};
+undefined
+console.log(groceryList);
+VM279:1 {Beans: '4kg', Daal: '2kg'} 
+*/
