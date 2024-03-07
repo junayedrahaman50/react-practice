@@ -143,7 +143,7 @@ function getBook(id) {
   return data.find((d) => d.id === id);
 }
 
-const book = getBook(1);
+const book = getBook(2);
 // to take out the title
 // const title = book.title;
 // const author = book.author;
@@ -192,3 +192,78 @@ undefined
 console.log(groceryList);
 VM279:1 {Beans: '4kg', Daal: '2kg'} 
 */
+
+/* Ternary Operator */
+/* In JS ternary operator is a very special type of operator that has 3 operands(three parts that are needed for the operator to work) */
+
+/* 1st part condition */
+/* if the condition is true the result will the value that comes after ? 
+It is res*/
+/* The second operand 'Over a thousand' will be the result of the operation if the condition is true, if false then the result will be 3rd operand 'less than one thousan' */
+/* An operator is like a function which always returns a value. 2 + 2 will return 4 */
+/* Store the result in a variable */
+const pagesRange = pages > 1000 ? "Over a thousand" : "less than one thousand";
+const grabYear = (str) => {
+  // str.split("-")[0];
+  return str.split("-")[0];
+};
+console.log(grabYear(publicationDate));
+const summary = `${title}, ${pages}-page long book, was written by ${author} and published in ${grabYear(
+  publicationDate
+)}. The book has ${hasMovieAdaptation ? "" : "not"} been adapted as movie`;
+// summary;
+console.log(summary);
+
+/* If else statement is a statement(not an expression) it does not return a value, So it can not be used with template literals */
+
+/* Arrow functions introduced in ES6. Useful for writing quick and short one line function. Use it for one liner function(advice) */
+// function declaration
+// function getYear(str) {
+//   return str.split("-")[0];
+// }
+// console.log(getYear(publicationDate));
+
+// function expression
+/* parameter => what we want to return */
+const add = (a, b) => a + b;
+const getYear = (str) => str.split("-")[0];
+console.log(add(10, 19));
+console.log(getYear(publicationDate));
+
+/* If we have more than one line of code then we need to use function block. If we use the block for one liner or multiliner arroe functions we need to use the return keyword */
+// e.g. returns undefined need to use return keyword
+// const grabYear = (str) => {
+// str.split("-")[0];
+//   return str.split("-")[0];
+// };
+// console.log(grabYear(publicationDate));
+// ===================================================================
+
+/* Some Operators like and or or in Javascript has a feature called short-circuiting, short-circuiting in logical operators means that In ceratain conditions the operator will immedietly return the first value and not even look at the second value */
+/* When first value is true the and operator will automatically return the second operand. No matter what that is*/
+/* When first value is false the and operator will automatically return first value and doesn't check the second value. That is short circuiting. This acts little bit like if statement */
+console.log(true && "some string"); // No short circuiting
+console.log(false && "some text...."); // Short
+// falsy values in js: 0, "", NaN, null, undefined, 0n: BigInt zero (0n), -0: The number negative zero (-0).
+
+// Apart from this any value is truthy value. "Junayed" is truthy
+console.log("Junayed" && "Junayed is truthy value");
+console.log(0 && "Some text.."); // Short circuiting
+
+// Or operator works exactly the opposite way
+/* It short circuits when the 1st operand is true and will then return it. If 1st operand is false it will return the 2nd operand(No short circuiting)  */
+
+console.log(true || "some text");
+console.log(false || "some string");
+
+const spanishTranslation = book.translations.spanish || "Not Translated";
+// spanishTranslation;
+// as undefined one of the falsy values or operator goes to the 2nd operand (No short circuiting)
+console.log(spanishTranslation);
+
+/* If there is 0 (falsy value) in first operand it will take it as falsy value and return 2nd operand. Which can lead to problem if we want to show */
+console.log(book.reviews.librarything.reviewsCount || "No Data");
+// To fix this we can use Nullish Coalescing operator
+// It works very similarly like or operator but it also short cicuits for some falsy values.
+/* It will only return the second value when first value is null or undefined but not for zero or empty string */
+console.log(book.reviews.librarything.reviewsCount ?? "No Data"); // Prints zero
