@@ -143,7 +143,7 @@ function getBook(id) {
   return data.find((d) => d.id === id);
 }
 
-const book = getBook(2);
+const book = getBook(3);
 // to take out the title
 // const title = book.title;
 // const author = book.author;
@@ -262,8 +262,21 @@ const spanishTranslation = book.translations.spanish || "Not Translated";
 console.log(spanishTranslation);
 
 /* If there is 0 (falsy value) in first operand it will take it as falsy value and return 2nd operand. Which can lead to problem if we want to show */
-console.log(book.reviews.librarything.reviewsCount || "No Data");
+// console.log(book.reviews.librarything.reviewsCount || "No Data");
 // To fix this we can use Nullish Coalescing operator
 // It works very similarly like or operator but it also short cicuits for some falsy values.
 /* It will only return the second value when first value is null or undefined but not for zero or empty string */
-console.log(book.reviews.librarything.reviewsCount ?? "No Data"); // Prints zero
+// console.log(book.reviews.librarything.reviewsCount ?? "No Data");
+// Prints zero
+
+function getTotalReviewCount(book) {
+  // const goodreads = book.reviews.goodreads.reviewsCount;
+  const goodreads = book.reviews?.goodreads?.reviewsCount;
+  /* book number 3 only has only goodreads, so book.reviews.librarything.reviewsCount is undefined this can be fixed using optional chaining - Only check next properties of an an object if the previous one exist(not undefined or null). this means whenever book.reviews.librarything is undefined it will not even try to read reviews count out of this. As book.reviews.librarything is undefined the entire book.reviews.librarything?.reviewsCount will become undefined. This is helpful whenever we are not sure that all the values we expect exist in an object. We are not always sure about the data structure of the data we are recieving (the book may not have any goodreads, librarything review). We are not sure if book.reviws.librything or book.reviews.goodreads exist */
+  /* Here we can use Nullish Coalescing operator to return 0 for undefined and null falsy values */
+  // const librarything = book.reviews.librarything?.reviewsCount ?? 0;
+  const librarything = book.reviews?.librarything?.reviewsCount ?? 0;
+  // librarything;
+  return goodreads + librarything;
+}
+console.log(getTotalReviewCount(book));
