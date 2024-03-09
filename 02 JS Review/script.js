@@ -280,3 +280,16 @@ function getTotalReviewCount(book) {
   return goodreads + librarything;
 }
 console.log(getTotalReviewCount(book));
+
+/* Reduce method is most powerful array method we can implement all the other array method using reduce method */
+/* Useful to perform mathematical operations with numbers. Suppose we wanted to read all the books in the array and we wanted to know how many pages we have to read. Add together all of the pages properties of the array */
+const books = getBooks();
+/* reduce takes a callBack function that will be executed for each element of the array, it also takes a second argument for starter value. The goal of reduce method is reduce the entire array to just one value. So here we want to get just one value from the array that is total pages of all the books combined. The 2nd argument of reduce is the starter value of the final value we want to get. The function (1st argument) we pass will get called with the current element as well as with the current value(accumulator) that starts with zero in this case  */
+/* it's like 
+let result = 0;
+result += book.pages
+where acc is like result, it's the current value of the final value that we want to get*/
+/* The first value that is 0 in here can also be object or an array */
+// acc = accumulator = sum
+const pagesAllBooks = books.reduce((sum, book) => sum + book.pages, 0);
+console.log(pagesAllBooks);
