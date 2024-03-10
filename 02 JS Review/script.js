@@ -293,3 +293,26 @@ where acc is like result, it's the current value of the final value that we want
 // acc = accumulator = sum
 const pagesAllBooks = books.reduce((sum, book) => sum + book.pages, 0);
 console.log(pagesAllBooks);
+
+/* Array sort method */
+
+// ascending order - (a - b)
+/* const sortedByPages = books
+  .slice()
+  .sort((a, b) => a.pages - b.pages)
+  .map((book) => ({
+    title: book.title,
+    author: book.author,
+    pages: book.pages,
+  })); */
+// descending order - (b - a)
+const sortedByPages = books
+  .slice()
+  .sort((a, b) => b.pages - a.pages)
+  .map((book) => ({
+    title: book.title,
+    author: book.author,
+    pages: book.pages,
+  }));
+// map method is used to extract only title, author, and pages from the book object
+console.log(sortedByPages);
