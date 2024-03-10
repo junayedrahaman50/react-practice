@@ -316,3 +316,36 @@ const sortedByPages = books
   }));
 // map method is used to extract only title, author, and pages from the book object
 console.log(sortedByPages);
+
+// 1) Add a book object to array:
+const newBook = {
+  id: 6,
+  title: "Harry Potter and the Chamber of Secrets",
+  author: "J.K. Rowling",
+  pages: 251,
+};
+const booksAfterAdd = [...books, newBook].map((book) => ({
+  id: book.id,
+  title: book.title,
+  author: book.author,
+  pages: book.pages,
+}));
+console.log(`
+Books After Add: ${booksAfterAdd.length}`);
+console.log(booksAfterAdd);
+
+// 2) Delete book object from array:
+// filter(shortens array) out book with id 3
+const booksAfterDelete = booksAfterAdd.filter((book) => book.id !== 3);
+console.log(`
+Books After Delete: ${booksAfterDelete.length}`);
+console.log(booksAfterDelete);
+
+// 3) Update book object in the array:
+/* book with id === 1 get updated with new pages property this works because ...book spreads out all the book properties and pages property gets updated with the new value as it comes after the original spreaded out book pages property */
+const booksAfterUpdate = booksAfterDelete.map((book) =>
+  book.id === 1 ? { ...book, pages: 100 } : book
+);
+console.log(`
+Books After Update: ${booksAfterUpdate.length}`);
+console.log(booksAfterUpdate);
