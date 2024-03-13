@@ -8,8 +8,41 @@ export default function App() {
   ------------------------------------------------------------------------------------------
    */
   const [newItem, setNewItem] = useState("");
+  // creating state to add a brand new todo to our list, by default it will have an empty array (todos = [] at first)
+  const [todos, setTodos] = useState([]);
   /*   // re renders every time
   // setNewItem("Infinte Loop!"); */
+
+  function handleSubmit(e) {
+    // stops page from refreshing on clicking submit/add button
+    e.preventDefault();
+
+    setTodos((currentTodos) => {
+      return [
+        ...currentTodos,
+        { id: crypto.randomUUID(), title: newItem, completed: false },
+      ];
+    });
+
+    // setNewItem to empty string on submit
+    setNewItem("");
+  }
+
+  function toggleTodo(id, completed) {
+    setTodos((currentTodos) => {
+      return currentTodos.map((todo) => {
+        // check if if it's the one to be toggled
+        if (todo.id === id) {
+          // doing this like below line can not work properly cause it's mutate the state
+          // todo.completed = completed;
+          // update completed (creating new state object)
+          return { ...todo, completed };
+        }
+        // otherwise (not matching current id)
+        return todo;
+      });
+    });
+  }
 
   /*  return text hi
     return "Hi React"; */
@@ -17,7 +50,7 @@ export default function App() {
     /* Convert what our final version should look like to jsx, we declared(in jsx) how our UI/App should look like, when adding interactivity to our site, instead manually changing our values we will change the jsx, declaring what we want in the UI the entire thing(component) will re render, In order to build modified variables and add interactivity we need to use state(useState) (change data) */
     //fragment <></>
     <>
-      <form className="new-item-form">
+      <form onSubmit={handleSubmit} className="new-item-form">
         <div className="form-row">
           <label htmlFor="item" className="new-item">
             New Item
@@ -37,21 +70,26 @@ export default function App() {
       wrap everything in a fragment(empty tag) */}
       <h1 className="header">Todo List</h1>
       <ul className="list">
-        <li>
-          <label>
-            <input type="checkbox" />
-            Item 1
-          </label>
-          <button className="btn btn-danger">Delete</button>
-        </li>
-        <li>
-          <label>
-            <input type="checkbox" />
-            Item 2
-          </label>
-          <button className="btn btn-danger">Delete</button>
-        </li>
+        {todos.map((todo) => {
+          /* when returning an array of elements inside react make sure each element at the very top has a key property, adding this unique id helps react to change a particular todo and don't bother touching any other elements and does performance optmization */
+          return (
+            <li key={todo.id}>
+              <label>
+                {/* pass id and checked value on chanhe event on ckeckbox to toggletod function */}
+                <input
+                  type="checkbox"
+                  checked={todo.completed}
+                  onChange={(e) => toggleTodo(todo.id, e.target.checked)}
+                />
+                {todo.title}
+              </label>
+              <button className="btn btn-danger">Delete</button>
+            </li>
+          );
+        })}
       </ul>
     </>
   );
 }
+
+// 28.20 at wds react video
