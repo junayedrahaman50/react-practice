@@ -1,0 +1,19 @@
+React styles are not bound to a single component, it will be applied to all components in the browser at that time (inspect to see), cause react takes all these styles adds them to head of the webpage. check out styles tag inside head element.
+
+The styles are not scoped into single component, we can use css modules or styled components to scope styles into components.
+
+We can create a global index.css file to implement all our styles.
+
+
+Inline styling in react:
+        {/* Inline styling in jsx, the first {} denote dynamic value and inside {} denote an object inside its key-value pair, key = css property, value = css property value (string) */}
+        <a
+          href="/create"
+          style={{
+            color: "#fff",
+            backgroundColor: "#f1356d",
+            borderRadius: "8px",
+          }}
+        >
+          New Blog
+        </a>

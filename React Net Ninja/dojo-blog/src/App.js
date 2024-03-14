@@ -1,4 +1,3 @@
-import "./App.css";
 // don't need to provide .js at filename
 import Navbar from "./Navbar";
 import Home from "./Home";

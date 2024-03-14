@@ -1,0 +1,24 @@
+const Home = () => {
+  const handleClick = (e) => {
+    console.log("Hello Ninjas!", e);
+  };
+  const handleClickAgain = (name, e) => {
+    console.log(`Hello ${name}!, ${e.target}`);
+  };
+  return (
+    <div className="home">
+      <h2>Homepage</h2>
+      {/* passing function reference {handleClick} on clicking function will be invoked, calling it handleClick() will invoke the function without clicking  */}
+      <button onClick={handleClick}>Click me!</button>
+      {/*Avoid this handleClickAgain(name) as it will invoke the function without clicking it, passing in argument to function: wrap inside anonymous function '() => {
+          handleClickAgain("Mario");
+        }', e.g. handleClick is similar like () => { console.log(Hello Ninjas!)} as we are not invoking the function with () we are referencing it, on clicking the anonymous function is invoked then handleClickAgain("Mario") with "Mario" argument, we can also remove curly braces ({}) cause it's one line, in jsx {} indicates dynamic value */}
+      <button onClick={(e) => handleClickAgain("Mario", e)}>
+        Click me again!
+      </button>
+      {/* Event object/parameter we automatically get access to it when an event occurs. As the first parameter of the function (referenced function), In the second case: anonymous function gets access to event object, now will pass that in handleClickAgain("Mario") function as 2nd argument */}
+    </div>
+  );
+};
+
+export default Home;
