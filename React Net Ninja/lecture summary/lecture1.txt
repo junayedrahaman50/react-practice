@@ -1,0 +1,9 @@
+The transcript is an introduction to a React tutorial series on YouTube. The presenter explains that the series is a refresh of an older React tutorial and will cover modern ways of working with React, including built-in hooks, custom-made hooks, and functional components. The series is meant to be a complete replacement for the older one and will start from the beginning, so no prior knowledge of React is needed.
+
+The presenter explains that React is a JavaScript library used to create interactive websites and user interfaces, and it makes it simple to create single-page applications (SPAs). The server only ever needs to send a single HTML page to the browser for the website to run fully, and then React takes over and manages the whole website in the browser, including any website data or user interactivity.
+
+The tutorial series will cover the creation of a mini microblog where users can list, delete, and add articles. The presenter states that by the end of the course, the viewer will be in a good place to start making their own React applications. The presenter also suggests that the viewer should at least know HTML, CSS, and the basics of JavaScript before starting the course.
+
+The presenter also mentions a package called "simple react snippets" that can be installed to help generate boilerplate React components and other React things. The presenter also explains how to set up the settings for "emit" in React components when creating templates.
+
+Finally, the presenter provides a link to the GitHub repository where all the course files can be found, and in the next video, the presenter will go ahead and create the first React application.

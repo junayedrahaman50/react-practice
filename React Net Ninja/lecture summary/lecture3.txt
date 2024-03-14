@@ -1,0 +1,11 @@
+The transcript is a tutorial on creating a React application, specifically focusing on components, which are the building blocks of a React app. The tutorial begins by explaining that a typical web page built with React might be made up of several different components, such as a navbar, article, or sidebar, and that each component contains its own template and logic for that piece of content.
+
+The presenter then introduces the app component, which is the root component in the application and is currently the only component being rendered to the DOM. The app component is a function that returns a JSX template, which is then converted into HTML by a transpiler called Babel.
+
+The presenter also explains some differences between JSX and HTML, such as the way classes are added to elements. In JSX, the attribute is called "className" and is camelCase, whereas in HTML it is simply "class".
+
+The presenter also mentions that in older versions of React (less than version 17), you need to import React at the top of the file for components to work, but in the latest version, this is not necessary.
+
+Towards the end of the tutorial, the presenter removes most of the template content and adds a div with a class of "content" inside the app div, and then adds an h1 inside the content div that says "app components".
+
+Finally, the presenter explains that a component is a function that returns a JSX template, and at the bottom, it is exported so it can be used in other files. This is demonstrated by importing the app component in the index.js file and rendering it to the DOM using the ReactDOM library.

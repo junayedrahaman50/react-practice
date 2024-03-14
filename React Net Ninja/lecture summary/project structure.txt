@@ -1,0 +1,22 @@
+Project Structure: The Create React App tool generates a basic project structure for you. The most important files and directories are:
+src/: This directory contains the source code for your React application.
+src/index.js: This is the entry point of your React application.
+src/App.js: This is the root component of your application.
+public/: This directory contains the static assets, such as the HTML file (index.html) that serves as the entry point for your application.
+
+
+The files in public directory are public (available in the browser) to the browser, our react code is rendered into the root element div.
+
+index.js file takes all our react components and mounts them in the DOM. App component is rendered in index.html file in root element (gets injected in root div). 
+
+reportWebVitals.js - performance file, App.test.js - testing file
+
+React.StrictMode - Lets you find common bugs in your components early during development, shows warnings in the console.
+
+All of our project dependencies live in 
+
+package.json - 
+start: start our server.
+build: build our app for production.
+test: test app.
+eject: eject our webpack file.

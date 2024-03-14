@@ -1,0 +1,9 @@
+Components contain template which makes up the html along with js logic. Components return jsx and In background a transpiler named babel converts all this jsx template into regular JavaScript code when we save the file. class is a reserved keyword in js show we can't use in jsx.
+
+Components return jsx and exported to use elsewhere.
+
+
+React converts out (whatever data type we give it to it) into strings before it renders it in browser.
+
+ can output: number, string, and array
+ can't output: boolean and objects
