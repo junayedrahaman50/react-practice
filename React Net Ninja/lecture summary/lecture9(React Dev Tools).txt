@@ -1,0 +1,9 @@
+React Dev tools integrate with browser development tools and gives us extra features that we can use on any website created with react. To extra tabs components, and profiler is available. Components is more useful. This gives us component diagram or component tree of our current app. Hovering over it provides extra info about the component.
+
+Important tabs in react dev tools:
+1. Inspect the matching DOM element. (eye icon)
+2. Log this component data to the console. (bug icon)
+
+Change of state (data) under hooks tab can be viewed in home (by selecting it from component tree) component by clicking the button (click me). Changes in state in a component can be tracked here.
+
+If we log the home component to the console we can see the hooks poperty with array of objects and each object represents the piece of state we have with properties name, value, id, isStateEditable etc.

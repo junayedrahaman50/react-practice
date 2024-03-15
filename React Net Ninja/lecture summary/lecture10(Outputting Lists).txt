@@ -1,0 +1,37 @@
+Goal: Outputting list of blogs in our template.
+
+Create some states to represent these blogs. We will be using useState hook cause data might change at some poin we might delete the blog, we need react to update the DOM when that happens.
+
+Home.js (lecture 10: Outputting List)
+----------
+import { useState } from "react";
+
+const Home = () => {
+  /* destructure the two values, initial value of this state is an array of objects, each objects represent a blog with title, body, author, and id poperty. This id is going to be used by react when we output this data, each id needs to be unique for each one of the items/blogs. */
+  const [blogs, setBlogs] = useState([
+    { title: "My new website", body: "lorem ipsum...", author: "mario", id: 1 },
+    { title: "Welcome party!", body: "lorem ipsum...", author: "yoshi", id: 2 },
+    {
+      title: "Web dev top tips",
+      body: "lorem ipsum...",
+      author: "mario",
+      id: 3,
+    },
+  ]);
+  return (
+    <div className="home">
+      {/* iterate/loop through blogs array using map method, for each iteration as we iterate through this we get access to the item we are currently iterating that is blog in this case, when we output list using map method each root element in the template that we return must have a key property now this key property is something that react uses to keep track of each item in the dom as it outputs it, so if data changes at any point say we remove/add new items to the array react can keep track of those items. So we must add a key attribute to each item that we output, otherwise react can't distinguish between list items in the DOM. This normally an id property for each item in the array (we already have that in our array of objects) */}
+      {blogs.map((blog) => (
+        // what we want to output for each blog
+        <div className="blog-preview" key={blog.id}>
+          <h2>{blog.title}</h2>
+          <p>Written by {blog.author}</p>
+        </div>
+      ))}
+    </div>
+  );
+};
+
+/* Summary: That is how we output a list of data in react. We have a list in this case an array of object which is stored in useState the we map through the data and we take each item into that as we map through it an we output a bit of template for each one (in this case see comment what we want to output for each blog) and each one has a key property which is id in our case but it could be any unique property. Now some css is added for each blog template ( view after  'blog previews / list' comment in index.css )  */
+
+export default Home;
