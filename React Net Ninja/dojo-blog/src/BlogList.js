@@ -1,33 +1,3 @@
-If we are building a real blog we might have the list of blogs in various places on our website it might be the homepage, search, category or tag page. So several different areas may use the same logic where we cycling/iterating through blogs and outputting a blog preview for each one. To implement that in our project we'll be repeating the code (map function iteration) over and over again in different components for different pages. Where we have pieces of components or bits of templates that might be reused in different positions or different places in the website we like to make that bit of template into its own reusable component. e.g. if we make a component blog list then we could drop this blog list component in any other components in the project. So if we have category page later on we could just get the blog list component and drop it in. To pass in different data into reusable component every time use it we will do that in form of props. E.g. in the homepage we might list all the blogs and show a preview for all the blogs starting from the latest one but on a search page or search component, we might only show the blogs that match the search term so the data is going to be different the structure is the same (of map function iteration BlogList component) but the blogs that we are going to use (state array of objects/blogs) is going to be different, so we can pass in data into these external components as well in the form of props. An external component of BlogList will contain all the logic/template(jsx) of map iteration and listing blog preview.
-
-Home.js
----------------------
-import { useState } from "react";
-import BlogList from "./BlogList";
-
-const Home = () => {
-  const [blogs, setBlogs] = useState([
-    { title: "My new website", body: "lorem ipsum...", author: "mario", id: 1 },
-    { title: "Welcome party!", body: "lorem ipsum...", author: "yoshi", id: 2 },
-    {
-      title: "Web dev top tips",
-      body: "lorem ipsum...",
-      author: "mario",
-      id: 3,
-    },
-  ]);
-  return (
-    <div className="home">
-      {/* {} - Dynamic value */}
-      <BlogList blogs={blogs} title="All Blogs!" />
-    </div>
-  );
-};
-/* Conclusion: That's how we can make a component take in props data and then use that data inside that component. It makes the Bloglist component more reusable and it does, we can now use this BlogList component anywhere in our application whther in home component or in different page component later on */
-export default Home;
--------------------------------------------------------------------------------------
-BlogList.js
---------------------
 // const BlogList = (props) => {
 const BlogList = ({ blogs, title }) => {
   /* stroring blog property of props object in blogs, we are passing in properties to props object and grabbing this different properties from this props object and storing these in this variables now an easier way to do this is destructuring ('{blogs, title}') as we want blogs and title from props object */
@@ -61,4 +31,3 @@ const BlogList = ({ blogs, title }) => {
 };
 
 export default BlogList;
------------------------------------------------------------------------------------

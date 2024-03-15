@@ -1,5 +1,5 @@
 // Component is just a function which returns jsx template and the exported at the bottom of file
-// sfc (stateless function component) press tab
+// sfc (stateless functional component) press tab
 const Navbar = () => {
   return (
     <nav className="navbar">

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import BlogList from "./BlogList";
 
 const Home = () => {
   const [blogs, setBlogs] = useState([
@@ -13,15 +14,10 @@ const Home = () => {
   ]);
   return (
     <div className="home">
-      {blogs.map((blog) => (
-        // what we want to output for each blog
-        <div className="blog-preview" key={blog.id}>
-          <h2>{blog.title}</h2>
-          <p>Written by {blog.author}</p>
-        </div>
-      ))}
+      {/* {} - Dynamic value */}
+      <BlogList blogs={blogs} title="All Blogs!" />
     </div>
   );
 };
-
+/* Conclusion: That's how we can make a component take in props data and then use that data inside that component. It makes the Bloglist component more reusable and it does, we can now use this BlogList component anywhere in our application whther in home component or in different page component later on */
 export default Home;
