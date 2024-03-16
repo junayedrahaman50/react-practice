@@ -1,3 +1,5 @@
+Lesson 6 (Adding Styles):
+
 React styles are not bound to a single component, it will be applied to all components in the browser at that time (inspect to see), cause react takes all these styles adds them to head of the webpage. check out styles tag inside head element.
 
 The styles are not scoped into single component, we can use css modules or styled components to scope styles into components.
@@ -17,3 +19,4 @@ Inline styling in react:
         >
           New Blog
         </a>
+----------------------------------------------------------------------------------------------

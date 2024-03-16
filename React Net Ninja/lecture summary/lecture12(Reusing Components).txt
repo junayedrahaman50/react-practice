@@ -1,3 +1,10 @@
+Lesson 12 (Reusing components):
+
+We took all this logic (map iteration) from home component and externalized it into BlogList component and we passed props into that component the data which it uses and externalizing all this logic into different component, makes that code more reusable, we can resuse this component in different places in our application where we need it and we can pass different data to it each time. 
+
+--------------------------------------------------------------------
+Home.js
+-------
 import { useState } from "react";
 import BlogList from "./BlogList";
 
@@ -25,3 +32,25 @@ const Home = () => {
 };
 
 export default Home;
+--------------------------------------------------------------------
+BlogList.js
+-----------
+const BlogList = ({ blogs, title }) => {
+  return (
+    <div className="blog-list">
+      <h2>{title}</h2>
+
+      {blogs.map((blog) => (
+        <div className="blog-preview" key={blog.id}>
+          <h2>{blog.title}</h2>
+          <p>Written by {blog.author}</p>
+        </div>
+      ))}
+    </div>
+  );
+};
+
+export default BlogList;
+--------------------------------------------------------------------------------
+
+Next Lesson: Updating the state by deleting items from data array (state of array of objects/blogs)
