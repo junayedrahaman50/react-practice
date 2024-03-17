@@ -1,0 +1,66 @@
+Lesson 13 (Functions as Props Delete an item):
+
+Allow users do delete blogs by clicking on button. We need a button inside the BlogList component for each blog that we output doing that below the author {blog.author}.
+
+BlogList.js
+-----------
+const BlogList = ({ blogs, title, handleDelete }) => {
+  /* function to delete blog using id: here we want to delete the blog with that id from blog data, now the data is initialize in home component useState (this is where the satate is), we don't want to directly edit the blogs prop (blogs prop - that is passed in in this component from Home component) (we shouldn't do that) instead we need to use setBlogs method inside Home componet to the update the state (change the state after deleting an item (blog)) that's what we need to do, it's not good to defined handleDelete function in here (in BlogList component) instead we want it to be defined in the home component, so we can interact with the data directly and then we can pass in this data (returned data from handleDelete function, the data after deleting) through as prop, so we can create a prop called handleDelete in Home component and set it equal to handleDelete function e.g. handleDelete={handleDelete} and the in BlogList we can accept this fumction as a prop in BlogList component and we are using it in the onClick event see below ⬇️, So we are invoking this function which is defined in the parent home component and inside home component we can use setBlogs function to update the state and we can remove the blog with this id (check handleDelte function in Home component) */
+
+  return (
+    <div className="blog-list">
+      <h2>{title}</h2>
+      {blogs.map((blog) => (
+        <div className="blog-preview" key={blog.id}>
+          <h2>{blog.title}</h2>
+          <p>Written by {blog.author}</p>
+          {/* button with click event handler (onClick), invoke an anonymous function while clicking it (Note: We pass in function expression (body of function or function name)), we'll pass in the id of the blog we want to delete so that we can find it in the array and delete it, we have access to the blog and the id property is in the blog, so we are passing that (blog.id) into handleDelete function so we know in here which blog to delete, this click event invokes the handleDelete function defined in Home component */}
+          <button onClick={() => handleDelete(blog.id)}>Delete blog!</button>
+        </div>
+      ))}
+    </div>
+  );
+};
+
+export default BlogList;
+
+
+Home.js
+-------
+import { useState } from "react";
+import BlogList from "./BlogList";
+
+const Home = () => {
+  const [blogs, setBlogs] = useState([
+    { title: "My new website", body: "lorem ipsum...", author: "mario", id: 1 },
+    { title: "Welcome party!", body: "lorem ipsum...", author: "yoshi", id: 2 },
+    {
+      title: "Web dev top tips",
+      body: "lorem ipsum...",
+      author: "mario",
+      id: 3,
+    },
+  ]);
+
+  const handleDelete = (id) => {
+    /* store the new array temporarily in newBlogs, the filter method doesn't change the original (blogs) array it doesn't mutate (change) it, It returns a new filtered array, blog id that doesn't match this passed id will remain in the array id that is not matched is removed, the new array is stored in newBlogs */
+    const newBlogs = blogs.filter((blog) => blog.id !== id);
+    /* we will use setBlogs to set new value (filtered array of objects/blogs (newBlogs)) for blogs, see the defined array of objects up 👆🏻 in the useState that is previous (initial) value and we will upadate the state by setting the value of blogs to newBlogs, fingers crossed 🤞🏻, upon refreshing the modified newBlogs state will not persist the state will set back to initial state as it re rendering, re-runnig the code, that's how we are passing functions (handleDelete) into other components (BlogList) as props form parent component(Home) */
+    setBlogs(newBlogs);
+  };
+
+  return (
+    <div className="home">
+      {/* we can pass in this data (returned data from handleDelete function, the
+      data after deleting) through as prop, so we can create a prop called
+      handleDelete in Home component and set it equal to handleDelete function
+      e.g. handleDelete={handleDelete} */}
+      <BlogList blogs={blogs} title="All Blogs!" handleDelete={handleDelete} />
+    </div>
+  );
+};
+
+/* conclusion: handleDelete function is defined where the original initial data is in the home component we will not be modifying blogs prop instead we will pass this handleDelete function as prop to BlogList component and use it in there in the onclick method by invoking it with the id of the blog to be deleted this handleDelete function defined in Home component since then invoked and uses setBlogs(newBlogs) to change value of blogs to newBlogs filtered array upon refreshing the code re runs and the state(data) of blogs is set back to initial value */
+
+export default Home;
+---------------------------------------------------------------------
