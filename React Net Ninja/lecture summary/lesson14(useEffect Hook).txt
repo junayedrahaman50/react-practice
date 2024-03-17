@@ -1,3 +1,9 @@
+We have seen useState hook that is used to create some state for the component. But there is many other hooks that we can use in React. One such is useEffect - this hook runs a function at every render of the componentns, remember the component renders initially when it first loads and the rendering also happens when the state changes it re renders the dom so we can update that state in the browser, so this useEffect hook is a way to run code on every render and that can be useful for many differednt reasons which we're going to see later on, now focus on how can we use it. 
+
+First thing to do import it from react - (import { useState, useEffect } from "react")
+
+Home.js
+-------
 import { useState, useEffect } from "react";
 import BlogList from "./BlogList";
 
@@ -34,3 +40,4 @@ const Home = () => {
 
 /* Conclusion: This useEffect hook is really really useful for running any kind of code that we need to run at every render. It can be used for things like fetching data we're gonna see that later. Next up we gonna look at dependencies of useEffect */
 export default Home;
+--------------------------------------------------------------------------------
