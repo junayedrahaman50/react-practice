@@ -13,24 +13,31 @@ const Home = () => {
     },
   ]);
 
+  const [name, setName] = useState("Mario");
+
   const handleDelete = (id) => {
     const newBlogs = blogs.filter((blog) => blog.id !== id);
     setBlogs(newBlogs);
   };
 
-  /* use useEffect hook - we don't store it inside a constant it doesn't return anything all we need to do is pass as an argument a function, this function the function that's going to run every time there is a re-render so once initially when the component first loads but thereafter anytime the data changes, normally in this function inside useEffect we could do something like fetch data or communicate with some kind of authentication service and those things are known as side effects in react, but for now awe are doing simple console.log, if we see in browser console we can observe useEffect ran on refresh and when we delete a blog(chaging the data (state) (re-rendering)) so useEffect runs on every render. We can also access the state inside useEffect, so if we wanted to output the blogs we can do 'console.log(blogs)' inside useEffect. If we inspect the browser console we can see the blogs data on every render as useEffect runs, Need to be careful about changing the state inside useEffect because because we could end up in a loop of continuos renders (e.g. setting state insde useEffect 'setBlogs(newBlogs)') 😅. In this scenario, Initially the component renders to the DOM  which will trigger useEffect function to run that would then update the state and the state(data) would change and that would trigger a re-render on that re-render again that triggers this function in useEffect to run and this goes on again and again creating a endless loop, there are ways to fix it which we will see later */
-
+  /* We want to run this useEffect at the begining when the component first renders but also whenever a certain value changes (in this case name meaning if this state changes -   `const [name, setName] = useState("Mario")` so the useEffect function will run only when the name state changes, given name will become the depedency we add into the 2nd argument `[name]` - now useEffect is going to watch this value and if it changes it will run the function. Now on the first render useEffect still runs displayed console.log(name) output mario on browser console. If if we delete the blogs it will not run cause it's only watching for changes in name state not in blogs state cause blogs is not in the dependency array, but if we change the name it does run the function (see the console) cause name is in the dependency array & when it changes the function inside useEffect is ran). Now one things to notice: after changing the name state to luigi, if we click the change name button again is will not run again. Cause although it is using setName("Luigi") function to change the state it's not actually changing the value anymore cause it's already luigi at this point (we already clikced the button changing the state to luigi) so state is not changing and we are not triggering that re-render and therefore the function inside useEffect (useEffect) in general is not running */
   useEffect(() => {
     console.log("useEffect ran");
-    console.log(blogs);
-  });
+    // console.log(blogs);
+    console.log(name);
+  }, [name]);
 
   return (
     <div className="home">
       <BlogList blogs={blogs} title="All Blogs!" handleDelete={handleDelete} />
+      {/* this onClick event will invoke an anonymous function which then invokes the setName(function that changes the state - data) */}
+      <button onClick={() => setName("Luigi")}>Change name</button>
+      {/* Outputting, the name in a paragraph */}
+      <p>{name}</p>
     </div>
   );
 };
 
-/* Conclusion: This useEffect hook is really really useful for running any kind of code that we need to run at every render. It can be used for things like fetching data we're gonna see that later. Next up we gonna look at dependencies of useEffect */
+/* conclusion: That's how we can use dependencies this dependency array is the 2nd argument to useEffect to control when this useEffect function runs */
+
 export default Home;
