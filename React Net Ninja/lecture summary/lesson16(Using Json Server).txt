@@ -1,0 +1,60 @@
+Lesson 16(Using Json Server):
+
+Fetching Data using useEffect - it is good place to fetch data in a component cause we know it runs the function (function inside useEffect sent as 1st argument) when the componet first renders initially, and that's generally when we want to go and fetch some data and then we can use that data in our application instead of the data that we already have in the blogs state:
+
+`const [blogs, setBlogs] = useState([
+    { title: "My new website", body: "lorem ipsum...", author: "mario", id: 1 },
+    { title: "Welcome party!", body: "lorem ipsum...", author: "yoshi", id: 2 },
+    {
+      title: "Web dev top tips",
+      body: "lorem ipsum...",
+      author: "mario",
+      id: 3,
+    },
+  ])`
+
+  Cause typically in an web app we will not have hard coded data like this, instead it will probably come from a database using an api endpoint (rest api). We are gonna using json server which will allow us to build a fake rest api just using a json file that we can use to test this out. 
+
+  1st step is to create a json file which is going to act as our database, this will reside in data folder of root directory of dojo-blog. in `data/db.json` 
+
+  [db.json is one property called blogs with an array of two other objects]
+
+  db.json
+  -------
+  {
+  "blogs": [
+    {
+      "title": "My First Blog",
+      "body": "Why do we use it?\nIt is a long established fact that a reader will be distracted ",
+      "author": "mario",
+      "id": 1
+    },
+    {
+      "title": "Opening Party",
+      "body": "Why do we use it?\nIt is a long established fact that a reader will be distracted ",
+      "author": "yoshi",
+      "id": 2
+    }
+  ]
+}
+  so each object is a blog with title, body, author, and id, we have two objects/blogs in total and when we're using json server each top level property is considered a resource so we just have one top level property blogs (which contains the array with 2 objects) so it sees that as resource and creates endpoints for us to interact with this resource so we can do things like delete items from it, add items to it, edit items, get the items etc so that is db.json file in a nutshell.
+  // comments are not allowed in json
+-----------------------------------------------------------------------------------------
+
+Now we'll use json server package to watch this file (db.json) and wrap it with some endpoints. So there is 2 options here either 1. Install json server package locally into  this project and then use it or 2. Use npx like we did to create-react-app to run the code from web and it will still watch our file right here `db.json`, that's is what we are gonna do. Open up different terminal rather than that's running our local development server(localhost:3000).
+
+We need to install json-server with 2 flags: (watch and port)
+`npx json-server --watch data/db.json --port 8000`
+
+watch followed by the path of the file to watch.
+And the port number where json-server will run.
+
+After running it (the command above) is going to watch db.json and will wrap it with some api endpoints.
+
+It picked up that we havw a blogs resource: http://localhost:8000/blogs
+So if we want to send a get request to get all of the blogs we would use this endpiint: http://localhost:8000/blogs - we can view this url in browser and see the data typically we're not gonna be using the browser to get that data instead we're gonna be using a fetch request inside our component using these different endpoints right here. Now at the moment we can see this: http://localhost:8000/blogs endpoint but it also provides us with other endpoints. The endpoints we are gonna be using (provided by json-server to us) is shown in the JSON server API endpoint image in lecture summary. This not all of the endpoints just the ones we will be using. The use of this endpoints also provided in the image. The first one we already tested in the browser (refer to the image) - http://localhost:8000/blogs. 
+
+/blogs/{id} - http://localhost:8000/blogs/1 (1 is the id)
+
+
+Next up - make a fetch request in useEffect to fetch all the blogs.

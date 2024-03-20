@@ -20,7 +20,6 @@ const Home = () => {
     setBlogs(newBlogs);
   };
 
-  /* We want to run this useEffect at the begining when the component first renders but also whenever a certain value changes (in this case name meaning if this state changes -   `const [name, setName] = useState("Mario")` so the useEffect function will run only when the name state changes, given name will become the depedency we add into the 2nd argument `[name]` - now useEffect is going to watch this value and if it changes it will run the function. Now on the first render useEffect still runs displayed console.log(name) output mario on browser console. If if we delete the blogs it will not run cause it's only watching for changes in name state not in blogs state cause blogs is not in the dependency array, but if we change the name it does run the function (see the console) cause name is in the dependency array & when it changes the function inside useEffect is ran). Now one things to notice: after changing the name state to luigi, if we click the change name button again is will not run again. Cause although it is using setName("Luigi") function to change the state it's not actually changing the value anymore cause it's already luigi at this point (we already clikced the button changing the state to luigi) so state is not changing and we are not triggering that re-render and therefore the function inside useEffect (useEffect) in general is not running */
   useEffect(() => {
     console.log("useEffect ran");
     // console.log(blogs);
@@ -30,14 +29,12 @@ const Home = () => {
   return (
     <div className="home">
       <BlogList blogs={blogs} title="All Blogs!" handleDelete={handleDelete} />
-      {/* this onClick event will invoke an anonymous function which then invokes the setName(function that changes the state - data) */}
+
       <button onClick={() => setName("Luigi")}>Change name</button>
-      {/* Outputting, the name in a paragraph */}
+
       <p>{name}</p>
     </div>
   );
 };
-
-/* conclusion: That's how we can use dependencies this dependency array is the 2nd argument to useEffect to control when this useEffect function runs */
 
 export default Home;
