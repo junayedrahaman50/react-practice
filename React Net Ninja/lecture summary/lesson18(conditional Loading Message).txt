@@ -1,3 +1,14 @@
+Lesson 18 (Conditional Loading Message):
+
+Currently in our app we render the BlogList `{blogs && <BlogList blogs={blogs} title="All Blogs!" />}` once we have blogs data and until then we don't render it. Now it would be nice to create a loading message while the data is being fetched so that user knows something is loading if it takes time to do, now our fetch is very quick because we're just making a fetch locally to our computer. But most times fetch will be to another server over the internet and slower in which case the user will see that loading message while we fetch the data.
+
+To do this, we're going to create an additional piece of state inside the home component and this is going to be called isPending and the function to change it's value that is setIsPending with initial value set to true:
+  const [isPending, setIsPending] = useState("true"); 
+
+Now we will implement another conditional template ->
+
+Home.js
+-------
 import { useState, useEffect } from "react";
 import BlogList from "./BlogList";
 
@@ -32,3 +43,5 @@ const Home = () => {
 
 /* Conclusion: That's how we can conditionally output a loading message */
 export default Home;
+
+Next up we're gonna look at fetching errors🔥
