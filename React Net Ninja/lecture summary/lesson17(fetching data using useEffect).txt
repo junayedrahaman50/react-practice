@@ -1,0 +1,74 @@
+Lesson 17 (fetching data using useEffect):
+
+Fetch data inside useEffect hook - it's going to run when the component first renders that's is the only time it's going to run cause we passed an `[]` empty dependncy array to useEffect as 2nd argument.
+
+We are not gonna use initial data hardcoded data for blogs state instead we will set the initial value as `null`. Upon successfully fetching the data from db.json file we are going to update the `blogs` state (data) using `setBlogs` with the data we get back. 
+
+Let's make that fetch request, fetch('endpoint') = format of fetch
+
+Home.js
+-------
+import { useState, useEffect } from "react";
+import BlogList from "./BlogList";
+
+const Home = () => {
+  const [blogs, setBlogs] = useState(null);
+
+  // const handleDelete = (id) => {
+  //   const newBlogs = blogs.filter((blog) => blog.id !== id);
+  //   setBlogs(newBlogs);
+  // };
+
+  useEffect(() => {
+    /* get request to `http://localhost:8000/blogs` this returns to us a promise, we can't use async we can't use await inside this to implemet that we need to externalize a function with all of this logic inside it and make that asynchronus. But here we going to use `then` method, so this will fire a function once this promise has resolved so once we have the data back, first of all we get a response object, this response object is actually not the data is just a response object and in order to get the data we have to do something with the response object and this is when we just use the fetch api (`http://localhost:8000/blogs`), So we need to use `res.json()` to pass the json into javascript object */
+    fetch("http://localhost:8000/blogs")
+      .then((res) => {
+        /* and this passes the json into a javascript object, we need to return this value and when we return this it returns another promise cause res.json() is also asynchronus it takes some time to do. so we need chain another then method which is going to fire a function once `res.json` is complete and this function (function inside then method that is chained 2nd time) takes in as parameter the actual data that `res.json` gets us. So use the res (response) object use the json method on that (res.json) and chain another then method whereby we get the data. So this data is going to be whatever in here in db.json in javascript format or rather a javascript array (the array starting from the top level resource `blogs`). We are logging the data inspect browser, now we are going to update initial null value given to the blogs state using setBlogs, if we put this setBlogs function inside useEffect it is not going to cause an infinite loop cause we have put the empty dependency array ensuring it only runs after first initial render not whenever the data changes */
+        return res.json();
+      })
+      .then((data) => {
+        console.log(data);
+        setBlogs(data);
+      });
+  }, []);
+
+  return (
+    <div className="home">
+      {/* Upon uncommenting the following line there might still be a error, here we are passing blogs as a prop to the BlogList component and then inside the BlogList the error is occuring in the map method, where we trying to map through the blogs that we pass through now the blogs should be the data that we have seen in the console `console.log('data') in 2nd chained then method. So why it is not working? It's not working cause it takes a fraction of time to get that data and initially the value of blogs is null and we're passing in null (in below line as prop to BlogList `blogs={blogs}`) when the app first loads in the browser so in the BlogList component blogs (blog property destructured from props object and stored in blogs `blogs = props.blogs`) is null and we are trying to use map method on null at the very start once we get the data it should work fine but to begin with until we have that data we get the error. So how do we combat this? So we don't want to output the below line until we have a value for blogs. So we are going to shortcircuit && operator by wrapping the whole line in {}which denotes javascript [ && ShortCircuiting: When first value is true the and operator will automatically return the second operand. No matter what that is.
+      When first value is false (here null is a falsy value) the and operator will automatically return first value and doesn't check the second value. That is short circuiting. This acts little bit like if statement]. This is called conditional templating in react. So if the the left operand (here that is null and evaluates to false) is false it doesn't even bother cheking the right operand (it shortcircuits), the <BlogList/> is not outputed here. If the blogs left operand evaluates as true, this moves to the right operand and evaluates <BlogList/> by evaluating this it outputs it to the screen. So the right operand is only ever going to be output if the left operand is true and that's generally how we can conditionally output parts of template🔥(I think it means one template or the other) we're going to see more of this later. So that's all */}
+      {blogs && <BlogList blogs={blogs} title="All Blogs!" />}
+    </div>
+  );
+};
+
+/* Conclusion: So we are fetching the data as soon as the component first renders at that moment in time once we have the data we update the state right here `setBlogs(data)` once we update the state it has a value it outputs this `<BlogList/>` and this passes through that value `blogs={blogs}` then we cycle through them in BlogList component and render them to DOM */
+
+/* Now we are going to remove the buttons to delete the blog because if we are deleting the blog it's just from local data and yes it'll work because we're storing this into local data in the state `in blogs state. Also notice we're updating blogs state upon deleting using setBlogs(newBlogs) in handleDelete function that runs on onClick event` but ultimately we are going to make delete request to db.json file so let's get rid of handleDelete functionality cause we don't need that anymore from Home component and in BlogList componet, that is passed function as prop to BlogList component. So now it's gone  */
+
+/* Next up we're going to see more about conditional templates (using logical operators) and how to output a loading message as we're trying to fetch the data */
+export default Home;
+
+
+BlogList.js
+-----------
+/* Removing the handleDelete function that was passed as prop from home component to BlogList component, also the button that is used to invoke it */
+
+const BlogList = ({ blogs, title }) => {
+  return (
+    <div className="blog-list">
+      <h2>{title}</h2>
+      {blogs.map((blog) => (
+        <div className="blog-preview" key={blog.id}>
+          <h2>{blog.title}</h2>
+          <p>Written by {blog.author}</p>
+          {/* <button onClick={() => handleDelete(blog.id)}>Delete blog!</button> */}
+        </div>
+      ))}
+    </div>
+  );
+};
+
+export default BlogList;
+
+
+
