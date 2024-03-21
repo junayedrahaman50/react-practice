@@ -1,0 +1,2 @@
+One more thing to do in home component is to handle any kind of error when we try to make the fetch. That could be an error which is sent back from the server or it could be connection error where we can't even connect to the server in these cases we wouldn't be getting the data back and we need to let the user know that there is some kind of error. So the first thing to do, is add a catch block (chain this method to 2nd chained then method)
+
