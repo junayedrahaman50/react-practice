@@ -1,0 +1,77 @@
+Lesson 20 (Making a custom hook):
+
+We put together all this logic inside the useEffect hook to update all of these all of these state properties to output the data or a loading message or an error if there is one and everyhting is working fine and it's fine to be left like this but what if we wanna do same kind of thing in another component in the future where we fetch some data we create state for the data itself the error and isPending property etc. We'd essentially have to rewrite all of this code in that component again and that's not very efficient, (no resusability as we need to rewrite all this in another component) It's not easy to manage especially if we're using this code in few different places in our application. So it would be good if we can make use of all of this code again in different components so make it a bit more reusable so we don't have to continually write it out again and again for example what we could do is we could rip it all out of this component and put in it's own javascript file and then we just import that into this file to use it and we could also import that into any other component that might need to use the same logic in the future and this way we're only writing and maintaining the code in one place (in it's own javascript file) and not in several different places over different components that need to fetch data. So when we do something like this by externalizing the logic into its own file we're creating something called a custom hook in react so a bit like useState and useEffect have their own specific functionality as hooks we'd be creating a custom hook with specific ability to fetch data, So in order to make this custom hook the first thing we're going to do is make a new file inside the source `src` folder called `useFetch.js`.
+
+Inside this we'll place all the functionality to fetch data exactly as we did exactly in the home component. But first of all we need to create a function to put the code in and this function will be the hook itself.
+
+useFetch.js
+-----------
+/* custom hooks in react needs to start with the word use otherwise it won't work, Now grab the whole useEffect thing in here now paste it inside the hook/function (useFetch - this function called a hook cause it starts with the word use). Now we need to do some tweaks first of all we need to import the useEffect hook and we also need to register all of the states as well because currently the state is in home component, but we're not setting the state in home component anymore we're setting them here in useFetch. So we're grabing all the states and bringing them here from home component. We'll also import useState and useEffect in order to use them. We'll export this function/hook (Componet functions starts with capital letter this function is a hook not an component) to use it in other components and we'll call the blogs state data cause we want to make this reusable so in the future if we're using this hook fetch data it might be to fetch a different type of resource for example tags or categories so it makes no sense to call it blogs all the time. So change state name to data in the function to update this state to setData. Notice the parameter inside the first chained then method is also called data but it will not affect us cause it's local version inside this function (the anonymous function). So it doesn't matter if the names clash. Last thing to do is to return some values from useFetch function. So we know hooks(useState, useEffect) return some values, we can do the same thing in our custom hooks, so at the bottom useFetch function we're gonna return some values  */
+import { useState, useEffect } from "react";
+const useFetch = (url) => {
+  const [data, setData] = useState(null);
+  const [isPending, setIsPending] = useState("true");
+  // Creating state to show the error in the browser, to begin with this state will have the initial value of null
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    setTimeout(() => {
+      fetch(url)
+        .then((res) => {
+          // console.log(res);
+          if (!res.ok) {
+            throw Error("Could not fetch the data for that resource");
+          }
+          return res.json();
+        })
+        .then((data) => {
+          console.log(data);
+          setData(data);
+          // Setting isPending to false once we have the data, therefore updating the state
+          setIsPending(false);
+          setError(null);
+        })
+        .catch((err) => {
+          // console.log(err.message);
+          // set isPending message to false when having an error
+          setIsPending(false);
+          setError(err.message);
+        });
+    }, 1000);
+  }, [url]);
+
+  /* return an object and place 3 values inside this object, the return value can be whatever we like it could be an array like useState(useState returns an array we destructure that array) or it could be a string or boolean in our case it's an object with three properties they are data,isPending, and error cause when we use this useFetch hook inside another file/component in future we'll be able to grab this properties from the hook that's what we want to get. One more thing we want to do is to pass in the api endpoint (url) into the function rather than hardcode it in `fetch("http://localhost:8000/blogs")` cause if we're using this useFetch hook in another file or in different component at some point it might not always be to the same endpoint (url). So we'll use a parameter of url in useFetch function and inside fetch as well `fetch(url)`. Now we need to pass an argument to this useFetch url parameter whenever we want to call it, that also means that we're gonna place url as dependency to the useEffect dependency array `[url]` and that means whenever the url changes it's going to rerun this function to get the data for that endpoint. (assuming we're going to create state variable of url and setUrl function to update it in other component - Not sure about this 😐). Now we're going to import this useFetch function in our Home component and then use it */
+  return { data, isPending, error };
+};
+// export it to use it in other components
+export default useFetch;
+-------------------------------------------------------------------------------
+Home.js
+-------
+import { useState, useEffect } from "react";
+import BlogList from "./BlogList";
+// import useFetch required
+import useFetch from "./useFetch";
+
+const Home = () => {
+  /* destructure the three properties we get back returned from useFetch function, we couuld have returned array in useFetch and destructure it here, but returning object is beneficial cause then order of these properties doesn't matter as long as the destructured variable names and property names are same***, and we can just grab isPending without getting other returned properties if that's what we want. Now the initial value to this hook we need to pass in the endpoint as argument to useFetch(url) parameter. So that's the resource we're trying to fetch  */
+  /* data: blogs - this means grab the `data` but call it blogs in this context, so now when we pass blogs in we're just passing in data `blogs = data`. Let's save and see this if it works 🤞🏻 */
+  const {
+    data: blogs,
+    isPending,
+    error,
+  } = useFetch("http://localhost:8000/blogs");
+
+  return (
+    <div className="home">
+      {error && <div>{error}</div>}
+      {isPending && <div>Loading......</div>}
+      {/* Changing the blogs state to data */}
+      {blogs && <BlogList blogs={blogs} title="All Blogs!" />}
+    </div>
+  );
+};
+// *** Need to verify it in browser console
+
+/* So that's how we can make a custom hook. So now this is more reusable now we don't have to redo all of this logic in every component that needs to make a fetch all we need to do is one line of code destructure and pass the endpoint in (doesn't matter what that is ) It's going to try and fetch that data and bring it back to us we get a loading state (isPending) and also an error if there is one which we can use in that component in general. This results into neat and tidy components that are easier to read */
+export default Home;
