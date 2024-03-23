@@ -1,1 +1,56 @@
+Lesson 24 (useEffect cleanup):
+
 So now whenever we land on our home page, this fetch for data starts using using our custom hook (useFetch) and once it completes it tries to update the state in the home component and we see that effect right here because when the state changes we output that to the DOM that data however if while the data is still trying to be fetched while it's still loading we then go to another page before the fetch completes we get an error. So from homepage `/` we are going to new blog `/create` now the fetch is still happening on the background once we've switched to add a new blog '/create' and therefore when the fetch is complete it still tries to update that state in the `Home` component but the home component isn't in the browser any more (cause we're in the `/create' route that renders `Create` component) that's why we get this error because it's saying we can't perform a react state update on an unmounted (not in the browser currently) component. The unmounted component is the `Home` component. So we need a way of stopping the fetch when the component using it unmounts. So if we go home then quickly to new blog we want to stop that fetch from carrying on now to do this we'll be using a combination of the cleanup function in a useEffect hook and something called an abort controller in javascript. So first of all we're going to do is go to the useFetch hook that we have right here 
+
+useFetch.js
+-----------
+import { useState, useEffect } from "react";
+const useFetch = (url) => {
+  const [data, setData] = useState(null);
+  const [isPending, setIsPending] = useState("true");
+  // Creating state to show the error in the browser, to begin with this state will have the initial value of null
+  const [error, setError] = useState(null);
+  /* lesson 24 (1st read): We wanna run a cleanup function when the component that uses this hook `useFetch` and this `useEffect` right here unmounts. So how do we create this cleanup function? all we need to do is to place a cleanup function inside useEffect and we just return it that's all we do, we return a value inside useEffect and that value is a function and then when the component that uses this `useEffect` or this `useFetch` hook unmounts it fires that returned cleanup function. So we're gonna do this below setTimeout right here. */
+  useEffect(() => {
+    const abortCont = new AbortController();
+
+    setTimeout(() => {
+      //lesson 24 Abort controller argument
+      fetch(url, { signal: abortCont.signal })
+        .then((res) => {
+          // console.log(res);
+          if (!res.ok) {
+            throw Error("Could not fetch the data for that resource");
+          }
+          return res.json();
+        })
+        .then((data) => {
+          // console.log(data);
+          setData(data);
+          // Setting isPending to false once we have the data, therefore updating the state
+          setIsPending(false);
+          setError(null);
+        })
+        .catch((err) => {
+          if (err.name === "AbortError") {
+            console.log("fetch aborted");
+          } else {
+            // set isPending message to false when having an error
+            setIsPending(false);
+            setError(err.message);
+          }
+        });
+    }, 1000);
+    /* lesson 24 (2nd read): So we're gonna write return and it's just gonna be a function and all we do for now is log to the console a message so that we know when this has run. So we'll go on the browser and refresh and we're going to go in home page `Home` component, wait for the data and then go to new blog an we can see the cleanup function run but also if we move quickly away we see it run again. So it's at this point we actually want to stop the fetch that's going in the background so that we don't try to update the state. So how do we do that, to do that we're gonna use something known as the abort controller. So let's create this abort controller first then we will get the explanation how to use it. So we'll do that inside useEffect at the top above the setTimeout an we're gonna store this in a constant and we're gonna call it abortCont (we can call it whatever we want) and we set it equal to new AbortController (look up ☝🏻) . So we have this abort controller and what we can do with it is we can assciate it with specific fetch request and once we have associated it with a fetch, we can use the abort controller to stop the fetch and that's what we wanna do, so the way we associate it with a fetch is by first off adding on a 2nd argument to the fetch which is kind of options for the fetch and then using the `signal` property like so `fetch(url, {signal})` and we set that equal to abortCont like `fetch(url, {signal:abortCont.signal})` which is our constant and that's all there is to it, now we're associating this abort controller with this fetch and then we can use this now to stop that fetch and we wanna do that inside this cleanup function below `return () => abortCont.abort()` by `abortCont.abort()` method like so. So this does is abort whatever fetch is associated with which is this `fetch(url, { signal: abortCont.signal })` one and so therefore it's not gonna carry on with the fetch it's going to pause it. So let's test it out. We still get this error so when we abort a fetch what happens is the fetch then throws an error an we catch that error in here `.catch((err) => {
+          setIsPending(false);
+          setError(err.message);
+        }) and when we catch an error we're then updating the state `setIsPending(false)`
+          `setError(err.message)` so we're still updating the state we might not be updating the data state anymore because we've stopped that fetch but we're still updating these states (We set isPending, also this error) and therefore we're still trying to update the whole component with these states so what we want to do is we want to recognize that error inside this catch block and if it's a specific type of error if it's an abort error caused by us then we don't want to update the state, so let's do that if check right here, We're going to say if err.name === 'AbortError' (see up in catch block), then we don't want to update the state else if we get different kind of error (like network error or server error) we wanna update the state (in the else part see up in the catch block) and still want to let the use r know about this error and we still want to set isPending to false. Iff we abort the fetch in the return function below and error.name is AbortError then we don't update the state and we just log this `fetch aborted` to the console so hoperfully that will solve the problem of the component trying to update (runnig in the background while being unmounted (solved by the return function) trying to update the state (solved by if else block inside catch )) and we won't get that error anymore. And it works! we're removing useEffect,and useState hook import line as we are not using them in home component  */
+    return () => abortCont.abort();
+  }, [url]);
+
+  return { data, isPending, error };
+};
+/* Conclusion lesson24: So that's how we can use cleanup function and the abort controller. Next up we're gonna learn Route Parameters🔥 */
+
+export default useFetch;
