@@ -1,3 +1,9 @@
+Lesson 23 (Router Links):
+
+We have set up multiple different routes now for '/' and '/create' but when we click on these links to those different routes it's still currently sending a fresh request to the server for a new page, we get the same html page (that is blank) back each time and then react is injecting the correct content but we know react router can intercept those requests and just handle the content changes in the browser instead and it can do but to do it we need to use a special link tag so let's go to the `Navbar` component and try to use this, first thing we need to do is to import this link tag from react.
+
+Navbar.js
+---------
 // Component is just a function which returns jsx template and the exported at the bottom of file
 // sfc (stateless functional component) press tab
 /* lesson 23: Importing link tag from react, destructure the link component from react-router-dom to handle new page requests in the browser (react router intercepts these request to the server ) thus making no requet to the server for new pages.  */

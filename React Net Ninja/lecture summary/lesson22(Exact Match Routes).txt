@@ -1,0 +1,60 @@
+Lesson 22 (Exact Match Routes):
+
+Let's add another route to our app to do this we need another page component. And this is going to for a web form to add a new blog so we're gonna call this component `Create`. So we'll create that inside the source folder named `Create.js` and we'll create a stateless functional component (sfc) in here named Create.
+
+Create.js
+---------
+const Create = () => {
+  // This template will be very simple to begin with, Now we will show this component App.js (App Component)
+  return (
+    <div className="create">
+      <h2>Add a new blog:</h2>
+    </div>
+  );
+};
+
+export default Create;
+
+-------------------------------------------------------------------------------------------
+
+App.js
+------
+import Navbar from "./Navbar";
+import Home from "./Home";
+
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+// import create component
+import Create from "./Create";
+
+function App() {
+  // const title = "Welcome to the new blog!";
+
+  return (
+    <Router>
+      <div className="App">
+        <Navbar />
+        <div className="content">
+          {/* <Home /> */}
+          <Switch>
+            <Route exact path="/">
+              <Home />
+            </Route>
+            {/* To add another route add multiple different components inside the `Switch` this time the path is going to be create '/create' and it's not going to render the component it's going to render the `Create` component. Also import the 'Create' component on top. let's see if this works, and the results are probably not gonna be what we expected. If we execute the create route we get the `Home` component rendered that doesn't make sense, so why it's showing us the homepage/`Home` component when we've gone to '/create' which the path registered in our `Route` `path="/create"` that's do with the way react looks at route paths and matches them against our routes that we create right here. In this case, it sees the route we go to as '/create' what we type in the address bar and then it looks through our routes and it tries to match that against with one of our paths right here now it matches against the first one it finds to be a correct match and it stops there. So it goes from top to bottom and it looks at this first path '/' first of all and it says well yes this is a match that's strange cause it's not a match but in the eyes of the react router it is kind of a match and that's because this thing right here this '/' (forward slash thing), this route is inside '/create' (this forward slash exists in that '/create' route) and this logic might seen strange but that's the way it works. So '/create' is considered a match for '/' cause it contains that forward slash `/`. Imagine if we have a route for '/c' this would match the for '/create' as well cause create route contains '/c'. So how do we get around this, cause we don't want to show the `Home` component if we go to '/create' (that makes no sense). All we have to do is say well look I don't want you to match this if it's included in the route we only want we want you to match this if it's exactly the route so all we do is add on the exact prop in '/' route like this see up☝🏻. So that's it. So now it's saying only match this if it's exactly the url we go to not just inside the url. So it's to do with order as well if we put the '/' path after '/create' it will work just fine. So we'll add more routes and pages in the same way in the future.*/}
+            {/* `Switch` component surrounds all routes and it is there to make sure
+            only one route component shows in the browser at any one time. So
+            when a request is made to a route react will look at that request
+            and then go from top to bottom inside the switch and try to match
+            against a route and it's going to stop at the first match it finds for that route and render that component inside the route. Now if the `Switch` component doesn't surround all of these routes it would carry on and render other matches as well meaning we could end up more than one page showing at one time. So it's always a good idea to surround our routes with `Switch` component. Now there is still a problem with this setup when we click on links to go to different pages it's still sending a request to the server (notice it reloads) for each click so for example. So if we click on New blog btw that goes to '/create' it's still making a request to the server now we said that react router should intercept those requests and handle it in the browser instead well it does but instead of using anchor tags we have to a special react router link instead and we'll see that next up [cliff hanger 😐]   */}
+            <Route path="/create">
+              <Create />
+            </Route>
+          </Switch>
+        </div>
+      </div>
+    </Router>
+  );
+}
+
+export default App;
+
+-------------------------------------------------------------------------------------------
