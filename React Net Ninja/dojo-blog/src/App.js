@@ -1,17 +1,25 @@
-// don't need to provide .js at filename
 import Navbar from "./Navbar";
 import Home from "./Home";
+
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+
 function App() {
   // const title = "Welcome to the new blog!";
 
   return (
-    <div className="App">
-      {/* self closing custom components, we can do <Navbar></Navbar> as well */}
-      <Navbar />
-      <div className="content">
-        <Home />
+    <Router>
+      <div className="App">
+        <Navbar />
+        <div className="content">
+          {/* <Home /> */}
+          <Switch>
+            <Route path="/">
+              <Home />
+            </Route>
+          </Switch>
+        </div>
       </div>
-    </div>
+    </Router>
   );
 }
 

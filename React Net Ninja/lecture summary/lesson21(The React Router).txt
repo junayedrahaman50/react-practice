@@ -1,9 +1,52 @@
+Lesson 21 (The React Router):
+
 So far, our application has only single page, we don't navigate around to other pages, we just have single home page. Most websites we create going to have probably more than one page, so we need a way to introduce multiple different pages or routes in our react application and the way we do this in react is with the react router but before we talk about how that works let us know how a typical multi-page website works.
 
 Typical website not using react handling multiple pages: Start in the browser by typing a url in the address bar and hitting enter that sends a request to that server for that address and the server handles it. The server is generally going to send back full html page which we then view in a browser now if a user was to click on a link on that website to another page like the contact page it then sends a brand new request to the server and then the server responds by sending back a new contact html page and we view that in the browser and the cycle would continue over and over as we click other page links on the website. So we're constantly making request to the server for new pages.
 
 Websites using react handling multiple pages:
- Now react applications don't work like this. They delegate all the routing and changing of page content to the browser only and it starts the same way we make an initial request in the browser the server then responds to that by sending back the html page to the browser but it also sends back our compiled react javascript files which controls our react application. So from this point on, react and the react router can take full control of the application. So initially, the html page we get back is virtually empty and then react injects the content dynamically using the components that we create if we then decide to click on a link to a new page the react router is going to step in and intercept that request to stop it from going to the server and instead it's going to look at the new page request and inject the rquired content on the screen. For example clicking on a contact link the react router will tell react to inject.
+ Now react applications don't work like this. They delegate all the routing and changing of page content to the browser only and it starts the same way we make an initial request in the browser the server then responds to that by sending back the html page to the browser but it also sends back our compiled react javascript files which controls our react application. So from this point on, react and the react router can take full control of the application. So initially, the html page we get back is virtually empty and then react injects the content dynamically using the components that we create if we then decide to click on a link to a new page the react router is going to step in and intercept that request to stop it from going to the server and instead it's going to look at the new page request and inject the rquired content on the screen. For example clicking on a contact link the react router will tell react to inject the contact component in the browser, if we were to click in a about link it would tell react to inject the about component and so forth. So this is generally the way react router works. We assign a top-level component for each route or page and that component is dynamically injected into the browser when we visit that route. Now this whole process, means that we're making less request to the server and the whole website therefore feels faster and slicker. Now we know from a bird's eye persepective how it works. Let's set it up in our code:
+
+We need to install react router package cause it's not part of the core react library. So on a new terminal execute(@5 - version 5, this version is used in this tutorial): 
+`npm i react-router-dom@5`
+
+Now look into `package.json` if it's there, so remember when we install something it goes into the `node_modules` folder.
+
+Set up routing for our application: 1st thing to do go to the root component that is App.js, we need to import few things from react-router package in here.
+
+App.js
+------
+// / - forward slash \ - back slash
+// don't need to provide .js at filename
+import Navbar from "./Navbar";
+import Home from "./Home";
+/* lesson21: (Read the comments top to bottom) To get started with routing we need to destructure few things, 1st thing we need is BrowserRouter, we're gonna say `BrowserRouter as Router` that means we can use the BrowserRouter that we're importing using this name `Router` inside this file. We also want to import something called the `route` component and also the `switch` component, we'll see what they do as we go forward. So now we need to surround our entire application with Router component and that means we can use the router in the entire application all components that are nested inside this app component will have access to the router. */
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+
+function App() {
+  // const title = "Welcome to the new blog!";
+
+  return (
+    <Router>
+      {/* lesson21: this div will be surrounded by Router component, <Router><div>.....</div></Router> so that's the first step, The next step is to decide where we want our page content to go when we go to different pages, we want go inside the div with className content. So we're gonna delete the home component  */}
+      <div className="App">
+        {/* self closing custom components, we can do <Navbar></Navbar> as well */}
+        <Navbar />
+        <div className="content">
+          {/* lesson21: We're gonna delete the home component and we're gonna replace it with the `Switch` component. This Switch component makes sure that only one route shows at any one time. More about it will be discussed later. Just know for now, all of our routes go inside this `Switch` component. So now we need to setup our individual routes, so what we do is we create a route for each page that we have using this `Route` component, now we only have one page so we're just going to place one route inside this `Switch` component but later on we're gonna have other pages and more routes inside here as well. So let's do our route for the home page. */}
+          {/* <Home /> */}
+          <Switch>
+            {/* lesson21: So the Route component like so with the closing tag and add a property to the route component which is going to be `path`, this `path` is basically the route, so for the home page it would just be '/' the root path. For example for contact page it would be '/contact' for about '/about' and so on, basically this is the path after the root of our website. e.g. if our root is junayed.com it can be the path after that root path of our URL like junayed.com/about, '/' is the path for home page and we need to nest the `Home` component inside inside this `Route` that we want to show when a user visits this route `path="/"` so we wanna show the `Home` component. So basically it's saying I want to show the Home component right here inside the div with className content when we visit '/' path. Notice: the Navbar `<Navbar/>` component always going to show because it's not inside this switch statement. Meaning this component is here for every single path or route but the content on the `Switch` is going to change depending on the route as we build up more routes. So let's save and preview🔥. Now nothing really should change because we're still using just the same home page but at least it does work just forward slash in the addressbar and we get the home page 🚀. Next up we're going to add another route and will discuss more about this `Switch` component we've used */}
+            <Route path="/">
+              <Home />
+            </Route>
+          </Switch>
+        </div>
+      </div>
+    </Router>
+  );
+}
+
+export default App;
 
 
- 2:23 minutes in video
