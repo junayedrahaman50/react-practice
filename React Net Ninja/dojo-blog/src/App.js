@@ -21,6 +21,10 @@ function App() {
             <Route path="/create">
               <Create />
             </Route>
+            {/* lesson 25: this time path is going to `/blogs/'whatever the id is'`, so how do we say this is gonna be a route parameter a changable part? (parameter that is after `/blogs/'Route parameter'`). We can't hard code this id is it going to be change well to do this we use a colon (:) and we give the route parameter a name (this is similar what we do in express.js) so we can call it whatever we want, we're gonna call it id, so that will represent the `id` of the blog */}
+            <Route path="/blogs/:id">
+              <Create />
+            </Route>
           </Switch>
         </div>
       </div>
@@ -29,3 +33,5 @@ function App() {
 }
 
 export default App;
+
+/* lesson 25: 2:42 in video */

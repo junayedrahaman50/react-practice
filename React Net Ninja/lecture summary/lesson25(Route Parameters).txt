@@ -1,0 +1,58 @@
+Lesson 25 (Route Parameters):
+
+Sometimes we need to pass dynamic values as part of a route. In other words a route where certain part of it is changable but regardless of what that changable part is it still renders the same page or component. Now an example of this is for a blog details page so the route might look something like this `/blogs/123` where 123 is the id of the blog we wanna see now this would maybe render a `BlogDetails` component and show the blog with the id `123` now this `123` can easily be something else `456` or `789` now in these cases we'd render the same `BlogDetails` but instead we'd show the blog with the id of `456` or `789`. So this changable part of the route is known as a route parameter it's like a variable inside a route. Now in our react appliacation we need to be able to use route parameters and access those route parameters from our components so that in the component we can use these ids for example to then maybe fetch data for that particular blog. So we'll set this up now. Now we'll create `BlogDetails` component because this is the component we're going to show when a user visits a route which looks something like `/blogs/id` this `id` is id of the blog.
+
+BlogDetails.js
+--------------
+const BlogDetails = () => {
+  // lesson25: we're gonna return a simple template here for now, now we'll create a route for this blog inside App.js (App component) this is where our Routes reside.
+  return (
+    <div className="blog-details">
+      <h2>Blog Details</h2>
+    </div>
+  );
+};
+
+export default BlogDetails;
+-----------------------------------------------------------------------------------------
+App.js
+------
+import Navbar from "./Navbar";
+import Home from "./Home";
+
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+// import create component
+import Create from "./Create";
+
+function App() {
+  // const title = "Welcome to the new blog!";
+
+  return (
+    <Router>
+      <div className="App">
+        <Navbar />
+        <div className="content">
+          {/* <Home /> */}
+          <Switch>
+            <Route exact path="/">
+              <Home />
+            </Route>
+            <Route path="/create">
+              <Create />
+            </Route>
+            {/* lesson 25: this time path is going to `/blogs/'whatever the id is'`, so how do we say this is gonna be a route parameter a changable part? (parameter that is after `/blogs/'Route parameter'`). We can't hard code this id is it going to be change well to do this we use a colon (:) and we give the route parameter a name (this is similar what we do in express.js) so we can call it whatever we want, we're gonna call it id, so that will represent the `id` of the blog */}
+            <Route path="/blogs/:id">
+              <Create />
+            </Route>
+          </Switch>
+        </div>
+      </div>
+    </Router>
+  );
+}
+
+export default App;
+
+/* lesson 25: 2:42 in video */
+
+** This lesson isn't completed yet **
