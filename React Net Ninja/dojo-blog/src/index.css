@@ -47,5 +47,13 @@
   font-size: 20px;
   color: #f1356d;
   margin-bottom: 8px;
-  cursor: pointer;
 }
+
+/* lesson 25: In this css rule we took off the underline style from the anchor tag, so this blog-preview is the parent of `Link` component/tag that is going to be an anchor (a) tag in the browser dom  */
+.blog-preview a {
+  text-decoration: none;
+}
+
+/* a:has(h2, p) {
+  text-decoration: none;
+} */

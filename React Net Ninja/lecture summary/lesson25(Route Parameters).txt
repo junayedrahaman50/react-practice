@@ -4,17 +4,22 @@ Sometimes we need to pass dynamic values as part of a route. In other words a ro
 
 BlogDetails.js
 --------------
+import { useParams } from "react-router-dom";
+
 const BlogDetails = () => {
-  // lesson25: we're gonna return a simple template here for now, now we'll create a route for this blog inside App.js (App component) this is where our Routes reside.
+  /* lesson 25: It allows us to grab route parameters from the route, we need to destructure whatever route parameter we want, remember we named the route parameter `id` `:id` so we say we want the `id` (destruture it from object that useParams returns) from the params then we can access this and we can use it inside our template or inside some other function to fetch the blog with that id. So now all we are gonna do to output this in our template */
+  const { id } = useParams();
+  // lesson 25: we're gonna return a simple template here for now, now we'll create a route for this blog inside App.js (App component) this is where our Routes reside.
   return (
     <div className="blog-details">
-      <h2>Blog Details</h2>
+      {/* lesson 25 Outputting the id grabbed from route parameter. So this id is visible in our output. so this id is available to us right now and we can use it to do a fetch request for that blog. But first we want to add links to blogs in homepage `Home` component so that if a user clicks on them, it goest to the `BlogDetails` route and it goes to the `id` of whatever this blog is. So let us go now to the `BlogList` component and set this up  */}
+      <h2>Blog Details - {id}</h2>
     </div>
   );
 };
 
 export default BlogDetails;
------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
 App.js
 ------
 import Navbar from "./Navbar";
@@ -23,6 +28,7 @@ import Home from "./Home";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 // import create component
 import Create from "./Create";
+import BlogDetails from "./BlogDetails";
 
 function App() {
   // const title = "Welcome to the new blog!";
@@ -40,9 +46,9 @@ function App() {
             <Route path="/create">
               <Create />
             </Route>
-            {/* lesson 25: this time path is going to `/blogs/'whatever the id is'`, so how do we say this is gonna be a route parameter a changable part? (parameter that is after `/blogs/'Route parameter'`). We can't hard code this id is it going to be change well to do this we use a colon (:) and we give the route parameter a name (this is similar what we do in express.js) so we can call it whatever we want, we're gonna call it id, so that will represent the `id` of the blog */}
+            {/* lesson 25: this time path is going to `/blogs/'whatever the id is'`, so how do we say this is gonna be a route parameter a changable part? (parameter that is after `/blogs/'Route parameter'`). We can't hard code this id is it going to be change well to do this we use a colon (:) and we give the route parameter a name (this is similar what we do in express.js) so we can call it whatever we want, we're gonna call it id, so that will represent the `id` of the blog. Now it could be 100 or 124 anything doesn't matter. Now when a user visits this route we want to we want to go to the `BlogDetails` component. Now if we test this we should see that route component `BlogDetails` regrdless of what id we put in e.g. `123` in the :id part of the path it works like a variable (like express.js). example url: `http://localhost:3000/blogs/123`. This id can be whatever we want it is changable renders the `BlogDetails` component. But we need to access whatever our id `:id` is inside `BlogDetails` component because if it's 1 then we want to fetch the blog with id of 1 inside this component, if it's 5 we fetch the blog with id of 5 and so forth. So how do we grab that route parameter right here in the url `http://localhost:3000/blogs/4` (grab 4 inside BlogDetails component) well we use a hook from `react-router-dom` */}
             <Route path="/blogs/:id">
-              <Create />
+              <BlogDetails />
             </Route>
           </Switch>
         </div>
@@ -52,7 +58,32 @@ function App() {
 }
 
 export default App;
+---------------------------------------------------------------------------------
+BlogList.js
+-----------
+/* Removing the handleDelete function that was passed as prop from home component to BlogList component, also the button that is used to invoke it */
 
-/* lesson 25: 2:42 in video */
+import { Link } from "react-router-dom";
 
-** This lesson isn't completed yet **
+const BlogList = ({ blogs, title }) => {
+  return (
+    <div className="blog-list">
+      {/* lesson 25: Remember inside this function we've access to each individual blog and each blog has an `id` property so we can access that an we can create a link. So we're gonna create a `Link` (auto imort it) tag in here, an we're gonna surround `h2` and `p` tag inside the `Link`. Now in the `to` prop we don't want to hardcode the url cause part of it is going to be dynamic (the id is changable for each blog). So we are going to use string literals (template string) to output the id variable inside curly braces (curly braces denotes we're using some kind of js). Now in this map function we have access to each `blog` and we'll use the `blog.id` that's the id property in the `blog` in here. (This similar functionality is used in ejs and express.js as well). So we're capturing the if in the links and we're accessing these ids inside the `BlogDetails` component by destructuring the `useParams` hook  */}
+      <h2>{title}</h2>
+      {blogs.map((blog) => (
+        <div className="blog-preview" key={blog.id}>
+          <Link to={`/blogs/${blog.id}`}>
+            <h2>{blog.title}</h2>
+            <p>Written by {blog.author}</p>
+          </Link>
+          {/* <button onClick={() => handleDelete(blog.id)}>Delete blog!</button> */}
+        </div>
+      ))}
+    </div>
+  );
+};
+/* lesson 25: We're getting the the blogs prop from the `Home` component we're iterating through the blogs using map function and outputting each blog and building link for each blog with their specific id that we've access to. */
+
+export default BlogList;
+
+Next up we're going to show data for that single blog retrieved using id in `BlogDetails` component and to do that we're gonna be reusing our custom hook useFetch🔥 
