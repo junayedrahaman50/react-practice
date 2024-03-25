@@ -57,3 +57,23 @@
 /* a:has(h2, p) {
   text-decoration: none;
 } */
+
+/* Lesson 26: BlogDetails page */
+/* blog details page */
+.blog-details h2 {
+  font-size: 20px;
+  color: #f1356d;
+  margin-bottom: 10px;
+}
+.blog-details div {
+  margin: 20px 0;
+}
+/* This button below is going to be used when we add the delete functionality later */
+/* .blog-details button {
+  background: #f1356d;
+  color: #fff;
+  border: 0;
+  padding: 8px;
+  border-radius: 8px;
+  cursor: pointer;
+} */

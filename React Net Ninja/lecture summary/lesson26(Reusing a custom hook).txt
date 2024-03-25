@@ -1,3 +1,9 @@
+Lesson 26 (Reusing a custom hook `with different url argument that is different endpoint):
+
+Now we can click on one of these links (in `Home` component) to go through to the `BlogDetails` page where we have access to that route parameter, that's the `id` for that blog so we can use that inside this component now to make a fetch request for the details of that particular blog from the `db.json` file and to do that we're gonna be reusing our custom hook `useFetch`, which returns three values the data we're trying to fetch (in our case the individual blog), `isPending` property which is true or false, and also an `error` if there is one. So all we have to do to use this hook in `BlogDetails` component now and pass in the `url` or the endpoint that we want to use to fetch data from. So that's what we're gonna do inside `BlogDetails`. 
+
+BlogDetails.js
+--------------
 import { useParams } from "react-router-dom";
 import useFetch from "./useFetch";
 
@@ -33,3 +39,25 @@ const BlogDetails = () => {
 /* lesson 26: Conclusion: So we can see now how useful this useFetch hook is cause we're just passing in the endpoint whenever we want to get some data and we're getting these 3 properties back (data (itself), isPending (state that is true or false), error (if there is one) btw all of them are states in useFetch hook so we are returning an object in useFetch hook that makes them properties) every time. So we can reuse this over and over again wahtever the endpoint is in different components. */
 export default BlogDetails;
 /* Next up we're gonna make forms in create page🔥 */
+----------------------------------------------------------------------------------------
+index.css
+---------
+/* Lesson 26: BlogDetails page */
+/* blog details page */
+.blog-details h2 {
+  font-size: 20px;
+  color: #f1356d;
+  margin-bottom: 10px;
+}
+.blog-details div {
+  margin: 20px 0;
+}
+/* This button below is going to be used when we add the delete functionality later */
+/* .blog-details button {
+  background: #f1356d;
+  color: #fff;
+  border: 0;
+  padding: 8px;
+  border-radius: 8px;
+  cursor: pointer;
+} */

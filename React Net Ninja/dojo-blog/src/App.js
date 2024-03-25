@@ -34,5 +34,3 @@ function App() {
 }
 
 export default App;
-
-/* lesson 25: 2:42 in video */
