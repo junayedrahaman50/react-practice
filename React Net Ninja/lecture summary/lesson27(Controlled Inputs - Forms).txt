@@ -1,3 +1,9 @@
+Lesson 27 (Controlled Inputs - Forms):
+
+Now we'll turn our attention into web forms in react so a user can type in a new blog and add that and later we'll send a post request so that so it adds it to the data, In order to this we need to talk about controlled inputs and different form fields. So controlled inputs are basically a way in react of setting up input fields in forms so that we can track their values so if we had a text input field for example a user can type into it and we can store that value of what they type in some kind of state and we can also make it so if the state changes that in turn updates the value that we see in the input field. So we're always keeping the input field and and our state in sync with each other. So let's try this out so the first thing we're gonna do is create a bit of a template for this form in our `Create` component.
+
+Create.js
+---------
 const Create = () => {
   // This template will be very simple to begin with, Now we will show this component App.js (App Component)
   return (
@@ -26,3 +32,42 @@ const Create = () => {
 
 export default Create;
 /* lesson 27: 4:15 in video */
+---------------------------------------------------------------------------------------
+index.css
+---------
+/* lesson 27: create new blog form */
+.create {
+  max-width: 400px;
+  margin: 0 auto;
+  text-align: center;
+}
+.create label {
+  text-align: left;
+  display: block;
+}
+.create h2 {
+  font-size: 20px;
+  color: #f1356d;
+  margin-bottom: 30px;
+}
+.create input,
+.create textarea,
+.create select {
+  width: 100%;
+  padding: 6px 10px;
+  margin: 10px 0;
+  border: 1px solid #ddd;
+  box-sizing: border-box;
+  display: block;
+}
+.create button {
+  background: #f1356d;
+  color: #fff;
+  border: 0;
+  padding: 8px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+
+/* This lesson 27 is not finished yet 🌏 */
