@@ -1,3 +1,9 @@
+Lesson 28 (Submit Events):
+
+Now we're tracking what a user types or selects inside this form next we wanna handle the form being submited and eventually do something with this data, now when a button is pressed inside a form it fires a submit event on the form itself so we can listen for this submit event and react to it, now another option would be to attach a click event to the button itself and react to that instead but we prefer to react to the submit event so what we're gonna to attach that in the form in `Create` component.
+
+Create.js
+---------
 import { useState } from "react";
 
 const Create = () => {
