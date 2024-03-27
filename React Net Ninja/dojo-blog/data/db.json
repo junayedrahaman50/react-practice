@@ -4,13 +4,31 @@
       "title": "My First Blog",
       "body": "Why do we use it?\nIt is a long established fact that a reader will be distracted ",
       "author": "mario",
-      "id": 1
+      "id": "1"
     },
     {
       "title": "Opening Party",
       "body": "Why do we use it?\nIt is a long established fact that a reader will be distracted ",
       "author": "yoshi",
-      "id": 2
+      "id": "2"
+    },
+    {
+      "id": "2aeb",
+      "title": "Tomatoes🍅",
+      "body": "Tomatoes are red.",
+      "author": "luigi"
+    },
+    {
+      "id": "cf28",
+      "title": "dfsfdf",
+      "body": "dsfds",
+      "author": "mario"
+    },
+    {
+      "id": "e25b",
+      "title": "Gingers 🫚",
+      "body": "Gingers are great for health.",
+      "author": "yoshi"
     }
   ]
 }

@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 const useFetch = (url) => {
   const [data, setData] = useState(null);
-  const [isPending, setIsPending] = useState("true");
+  /* lesson 29: fixed an error made by net ninja, he passed true as "true" which was a truthy string value which make this error undetected fixed in below line */
+  const [isPending, setIsPending] = useState(true);
   // Creating state to show the error in the browser, to begin with this state will have the initial value of null
   const [error, setError] = useState(null);
   useEffect(() => {

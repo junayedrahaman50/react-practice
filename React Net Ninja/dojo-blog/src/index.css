@@ -111,3 +111,9 @@
   border-radius: 8px;
   cursor: pointer;
 }
+
+/* Lesson 29: target the disabled button and make it gray color */
+
+.create form button:disabled {
+  background-color: #868e96;
+}

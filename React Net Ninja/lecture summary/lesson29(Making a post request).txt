@@ -1,3 +1,9 @@
+Lesson 29 (Making a post request):
+
+Now we can submit the form and create this blog objects, the next step is to make a post request to json server to add that data to our data file so we're not gonna use the useFetch hook this time we could probably edit this so we can handle post requests as well and make a more universal hook but we don't want do that instead we're just gonna make the post request inside this handleSubmit function in `Create` component cause we're only gonna make that request once in the whole application(will not be reusing) and not in different places. First of all we're going to delete the consol.log(blog) in handleSubmit function.
+
+Create.js
+---------
 import { useState } from "react";
 
 const Create = () => {
@@ -65,3 +71,16 @@ const Create = () => {
 
 /* lesson 29: Conclusion: So now everything works, but it will be nice if we redirect the user to the homepage `Home` component after the blog has been added and we'll see how to do these redirect next */
 export default Create;
+------------------------------------------------------------------------------------
+index.css   
+---------
+/* Lesson 29: target the disabled button and make it gray color */
+
+.create form button:disabled {
+  background-color: #868e96;
+}
+------------------------------------------------------------------------------------
+useFetch.js (custom hook) - error fix
+-------------------------
+/* lesson 29: fixed an error made by net ninja, he passed true as "true" which was a truthy string value which make this error undetected fixed in below line */
+const [isPending, setIsPending] = useState(true);
