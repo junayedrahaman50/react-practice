@@ -4,34 +4,54 @@ Now we'll turn our attention into web forms in react so a user can type in a new
 
 Create.js
 ---------
+import { useState } from "react";
+
 const Create = () => {
+  /* lesson 27: (read it last):Required states to keep track of user inputs, the title will have an initial value of empty string '', now we're gonna associate title state with the value of title input. So we're gonna write in the title input value={title} see below 👇🏻. Now whatever the value of title is that is '' (empty string) initially will be the value of title input field. Like we can test it by giving the initial value 'Hello Folks!' in useState it will show up in the input field in the browser. Now one thing to notice if we try to change it in the browser, write anything in the input fields nothing happens it stays 'Hello Folks' we can't delete it or add anything else cause it's always showing the initial value of 'Hello Folks', It won't let us change the value of the input, So wanna make it so when we try to change this it in the input it triggers the `setTitle` that is the function to update the `title` state to whatever we wanan change it to, so the way to do this is using the `onChange` event(See the input after label blog title). We will set this onChange event equal to an anonymous function, which then invokes `setTitle`. So we're gonna change the title when we try to change the input value. Now inside here in the parameter we get access to the event object as the first parameter we can call it whatever we want in this case it's `e` `onChange={(e) => console.log(e)}`. So we want to update the title state with whatever we type in the input and we can get that from the event object by writing `e.target` the target is the title input elemetn itself, and then we'll do `e.target.value` as we want the the value of this input and update the title state by passing the value (e.target.value) to `setTitle(e.target.value)` function. So e.target.value is whatever we're typing into the input field(e.tatget) that is the value of it. So if we save this now when we type into the input field it's going to trigger this call `setTitle` with the input value that is going to update the `title` state (that was empty string to begin with). So it's going to update that everytime we type it in to match what we're typing into the input field and vice-versa the value of input is going to match thar as it is equal to `title` so now we have this two way binding. So if we save this and type it works!🔥, but also we want to see that, so we're gonna output this (the `title`) at bottom in the `p` tag after `button` in `form`. So now we can see the title updating. */
+  const [title, setTitle] = useState("");
+  /* lesson 27: Creating state for body and author */
+  const [body, setBody] = useState("");
+  const [author, setAuthor] = useState("mario");
+
   // This template will be very simple to begin with, Now we will show this component App.js (App Component)
   return (
     <div className="create">
       <h2>Add a new blog</h2>
-      {/* lesson27: Underneath the h2 we'll add a form, we'll get rid of the action attribute because we're gonna submit the form in another video, the we first of all want a label for our first field */}
+      {/* lesson27 (start from here): Underneath the h2 we'll add a form, we'll get rid of the action attribute because we're gonna submit the form in another video, the we first of all want a label for our first field */}
       <form>
         {/* lesson 27: get rid of the htmlFor(prop) attribute in label as well */}
         <label>Blog title:</label>
         {/* lesson 27: Under this we'll have an input field of type text, but we're gonna format this a little bit different, we're gonna put all the different property names or attributes on a new line cause there will be quite a lot of them as we go through this and we don't want them go off the page over to the right, so this is just easier for us to see🧑🏻‍💻, This input field is for title we'll need another for the content and this will be a textarea and get rid of all the attributes and required, we're gonna add more properties in here later on but for now move on and add final label for author, and for this we're gonna use a select field and this is so we can learn how to use controlled inputs with select as well, so at last add a button as well to submit this form. So the form looks terrible and we'll add few styles to make it look better */}
-        <input type="text" required />
+        <input
+          type="text"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          required
+        />
         <label>Blog body:</label>
-        <textarea required></textarea>
+        <textarea
+          value={body}
+          onChange={(e) => setBody(e.target.value)}
+          required
+        ></textarea>
         <label>Blog author:</label>
-        <select>
+        <select value={author} onChange={(e) => setAuthor(e.target.value)}>
           <option value="mario">mario</option>
           <option value="yoshi">yoshi</option>
           <option value="luigi">luigi</option>
         </select>
         <button>Add blog</button>
+        <p>{title}</p>
+        <p>{body}</p>
+        <p>{author}</p>
       </form>
-      {/* lesson 27: So now in the form we can fill in the inputs but currently when we do that we're not keeping track of what a user types into them or what a user selects (in the select input). So that's the whole aim of this (keeping track of what a user types into inputs). If we're to start typing for example welcome in the blog title we want to be able to track that value and store it in some state inside this `Create` component, so we can do something with this data later on. So how do we do this? First of all we need to setup some states for this */}
+      {/* lesson 27: So now in the form we can fill in the inputs but currently when we do that we're not keeping track of what a user types into them or what a user selects (in the select input). So that's the whole aim of this (keeping track of what a user types into inputs). If we're to start typing for example welcome in the blog title we want to be able to track that value and store it in some state inside this `Create` component, so we can do something with this data later on. So how do we do this? First of all we need to setup some states for this. The states are crated at the top above return☝🏻 */}
     </div>
   );
 };
+/* lesson 27 (Conclusion): So now we're tracking what a user types into this field we need do the same though with the other input that is body, So same thing is done with body as with title. But what about the select field that is also similar the intitial value of the select is going to be the value predefined in the select options that are mario, yoshi, and luigi. So we'll put mario as initial value of author state in `useState`. Now on the select field we'll set the value equal to author state. Now doing similar thing with onChange event and outputting the author state in tha `p` tag. Next up we're gonna submit this form🔥 */
 
 export default Create;
-/* lesson 27: 4:15 in video */
 ---------------------------------------------------------------------------------------
 index.css
 ---------
@@ -69,5 +89,3 @@ index.css
   cursor: pointer;
 }
 
-
-/* This lesson 27 is not finished yet 🌏 */
