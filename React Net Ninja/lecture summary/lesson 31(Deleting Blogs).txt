@@ -1,3 +1,9 @@
+Lesson 31(Deleting Blogs):
+
+So things are looking good we can successfully list all the blogs, we can add new blogs, we can also see the blog details as well when we click on the blog now what we'd like to is to be able to delete a blog by clicking on a button at the bottom of `BlogDetails` component, So we'll do that now over to `BlogDetails` now what we're gonna do to place the delete button a the bottom of the article.
+
+BlogDetails.js
+--------------
 import { useHistory, useParams } from "react-router-dom";
 import useFetch from "./useFetch";
 
@@ -38,3 +44,16 @@ const BlogDetails = () => {
 
 /* lesson 31 (Conclusion): That is pretty much it, we've completed the blog there is one more thing to do that is to setup a 404 page if we go to somekind of url that doesn't exist in our routes and we'll do that next up */
 export default BlogDetails;
+----------------------------------------------------------------------------------
+index.css
+---------
+/* lesson 30: Delete button */
+.blog-details button {
+  background: #f1356d;
+  color: #fff;
+  border: 0;
+  padding: 8px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+----------------------------------------------------------------------------------
