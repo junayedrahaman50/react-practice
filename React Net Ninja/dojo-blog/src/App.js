@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 // import create component
 import Create from "./Create";
 import BlogDetails from "./BlogDetails";
+import Notfound from "./Notfound";
 
 function App() {
   // const title = "Welcome to the new blog!";
@@ -22,9 +23,12 @@ function App() {
             <Route path="/create">
               <Create />
             </Route>
-            {/* lesson 25: this time path is going to `/blogs/'whatever the id is'`, so how do we say this is gonna be a route parameter a changable part? (parameter that is after `/blogs/'Route parameter'`). We can't hard code this id is it going to be change well to do this we use a colon (:) and we give the route parameter a name (this is similar what we do in express.js) so we can call it whatever we want, we're gonna call it id, so that will represent the `id` of the blog. Now it could be 100 or 124 anything doesn't matter. Now when a user visits this route we want to we want to go to the `BlogDetails` component. Now if we test this we should see that route component `BlogDetails` regrdless of what id we put in e.g. `123` in the :id part of the path it works like a variable (like express.js). example url: `http://localhost:3000/blogs/123`. This id can be whatever we want it is changable renders the `BlogDetails` component. But we need to access whatever our id `:id` is inside `BlogDetails` component because if it's 1 then we want to fetch the blog with id of 1 inside this component, if it's 5 we fetch the blog with id of 5 and so forth. So how do we grab that route parameter right here in the url `http://localhost:3000/blogs/4` (grab 4 inside BlogDetails component) well we use a hook from `react-router-dom` */}
             <Route path="/blogs/:id">
               <BlogDetails />
+            </Route>
+            {/* lesson 32: the Notfound component will be rendered here in a catch all route, so we're gonna add another route. Again start writing `Notfound` from `<` sign as it will help autoimport it in the top and now we want the path in this route to be asterix `*`, that means look catch any other route, now this goes at the bottom because otherwise it's gonna match that comes in if it goes at the top. If it goes at the bottom if none of the routes defined above it match then this `*` one matches regardless it's kind of like a catch-all route. So if we save it now, upon entering route in the address bar that doesn't exist in the browser we'll see the `Notfound` component being rendered. So with this this project is pretty much complete now. */}
+            <Route path="*">
+              <Notfound />
             </Route>
           </Switch>
         </div>
@@ -32,5 +36,6 @@ function App() {
     </Router>
   );
 }
+/* lesson 32(Conclusion): To further advance in react we can check out the react docs or advanced react tutorials. learn useRef, useMemo, useReducer, and useCallback hook. Also edit functionality in this blog can be implemented by making a fetch request (send the id as prop from `BlogDetails` component to some `Edit` component and implement the fetch function PUT request there this solution is an experiment) */
 
 export default App;
