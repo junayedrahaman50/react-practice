@@ -1,3 +1,9 @@
+Lesson 30 (Programmatic Redirects):
+
+Now we can successfully add new blogs by submitting this form but once we've added the blog it stays on the new blog page `Create` component and what we'd like to do instead is to redirect the user back to the home page `Home` component once it's complete. So in order to that we can use another hook in react called useHistory, and what this allows us to do is go back and forward through the history much like the back (<-) and forward (->) arrow buttons in the browser and also add a new page onto the history in other words redirect them to a new route so let's see how we can do this, first of all inside the `Create` component we want to import useHistory.
+
+Create.js
+---------
 import { useState } from "react";
 /* lesson 30 (read first): import useHistory from react router package */
 import { useHistory } from "react-router-dom";
@@ -67,3 +73,4 @@ const Create = () => {
 /* lesson 30 (Conclusion): So that's all we want to do. The user submits the form, the blog is added, once it's added in the `then` menthod we push them to the homepage. So let's test this. Next up we're going to delete blogs */
 
 export default Create;
+-------------------------------------------------------------------------------
